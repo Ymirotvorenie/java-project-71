@@ -13,11 +13,11 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'temurin'
+          distribution: 'openjdk'
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-      - run: ls -al
+      - run: ls -al ./app
       - run: ./app/gradlew checkstyleMain
       - run: ./app/gradlew test
       - name: Publish code coverage
