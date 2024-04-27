@@ -23,6 +23,9 @@ run:
 lint:
 	./gradlew checkstyleMain
 
+test:
+	./gradlew test
+
 check-updates:
 	./gradlew dependencyUpdates
 

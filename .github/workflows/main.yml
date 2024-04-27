@@ -20,7 +20,7 @@ jobs:
           arguments: build
           build-root-directory: app
       - run: make lint
-      - run: ./gradlew test
+      - run: make test
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:

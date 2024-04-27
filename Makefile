@@ -19,6 +19,9 @@ run:
 lint:
 	make -C app lint
 
+test:
+	make -C app test
+
 check-updates:
 	make -C app check-updates
 
