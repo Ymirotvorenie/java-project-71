@@ -17,9 +17,10 @@ jobs:
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-      - run: ls -al ./app
-      - run: ./app/gradlew checkstyleMain
-      - run: ./app/gradlew test
+          arguments: build
+          build-root-directory: app
+      - run: make lint
+      - run: ./gradlew test
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:
