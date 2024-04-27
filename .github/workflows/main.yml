@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'openjdk'
+          distribution: 'temurin'
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
