@@ -1,29 +1,28 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static hexlet.code.Parser.parse;
+
 public class Differ {
 
-    public static String generate(String file1, String file2) throws IOException {
+    public static String generate(String filepath1, String filepath2) throws IOException {
         var result = new HashMap<String, ArrayList<String>>();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        var json1 = objectMapper.readValue(new File(file1), Map.class);
-        var json2 = objectMapper.readValue(new File(file2), Map.class);
+        var file1 = parse(filepath1);
+        var file2 = parse(filepath2);
 
-        List<String> fieldsNames = CollectionUtils.union(json1.keySet(), json2.keySet()).stream().toList();
+        List<String> fieldsNames = CollectionUtils.union(file1.keySet(), file2.keySet()).stream().toList();
 
         fieldsNames.forEach(f -> {
-            var json1FieldValue = json1.get(f);
-            var json2FieldValue = json2.get(f);
+            var json1FieldValue = file1.get(f);
+            var json2FieldValue = file2.get(f);
 
             if (json2FieldValue == null) {
                 result.put(f, new ArrayList<>(List.of("-", json1FieldValue.toString())));
@@ -50,17 +49,16 @@ public class Differ {
     public static String diffString(Map<String, ArrayList<String>> diffMap, List<String> fieldsNames) {
         StringBuilder result = new StringBuilder("{\n");
         fieldsNames.forEach(f -> {
-            if (diffMap.containsKey(f)) {
-                for (int i = 0; i < diffMap.get(f).size(); i += 2) {
-                    result.append("  ")
-                            .append(diffMap.get(f).get(i))
-                            .append(" ")
-                            .append(f)
-                            .append(": ")
-                            .append(diffMap.get(f).get(i + 1))
-                            .append("\n");
-                }
+            for (int i = 0; i < diffMap.get(f).size(); i += 2) {
+                result.append("  ")
+                        .append(diffMap.get(f).get(i))
+                        .append(" ")
+                        .append(f)
+                        .append(": ")
+                        .append(diffMap.get(f).get(i + 1))
+                        .append("\n");
             }
+
         });
         result.append("}");
         return result.toString();
