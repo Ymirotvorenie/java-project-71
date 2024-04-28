@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,12 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Differ {
-    public static final ArrayList<String> JSON_FIELDS = new ArrayList<>(List.of(
-            "follow",
-            "host",
-            "proxy",
-            "timeout",
-            "verbose"));
+
     public static String generate(String file1, String file2) throws IOException {
         var result = new HashMap<String, ArrayList<String>>();
 
@@ -23,7 +19,9 @@ public class Differ {
         var json1 = objectMapper.readValue(new File(file1), Map.class);
         var json2 = objectMapper.readValue(new File(file2), Map.class);
 
-        JSON_FIELDS.forEach(f -> {
+        List<String> fieldsNames = CollectionUtils.union(json1.keySet(), json2.keySet()).stream().toList();
+
+        fieldsNames.forEach(f -> {
             var json1FieldValue = json1.get(f);
             var json2FieldValue = json2.get(f);
 
@@ -46,12 +44,12 @@ public class Differ {
                 }
             }
         });
-        return diffString(result);
+        return diffString(result, fieldsNames);
     }
 
-    public static String diffString(Map<String, ArrayList<String>> diffMap) {
+    public static String diffString(Map<String, ArrayList<String>> diffMap, List<String> fieldsNames) {
         StringBuilder result = new StringBuilder("{\n");
-        JSON_FIELDS.forEach(f -> {
+        fieldsNames.forEach(f -> {
             if (diffMap.containsKey(f)) {
                 for (int i = 0; i < diffMap.get(f).size(); i += 2) {
                     result.append("  ")

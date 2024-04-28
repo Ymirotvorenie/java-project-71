@@ -19,17 +19,14 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("info.picocli:picocli:4.7.5")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-
-    compileOnly ("org.projectlombok:lombok:1.18.32")
-    annotationProcessor ("org.projectlombok:lombok:1.18.32")
-
-    testCompileOnly ("org.projectlombok:lombok:1.18.32")
-    testAnnotationProcessor ("org.projectlombok:lombok:1.18.32")
+    implementation("org.apache.commons:commons-collections4:4.5.0-M1")
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
+
 
 tasks.jacocoTestReport {
     reports { xml.required.set(true) }
