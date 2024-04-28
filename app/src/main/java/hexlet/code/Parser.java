@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.common.io.Files;
@@ -13,11 +14,11 @@ public class Parser {
     public static Map<String, Object> parse(String filepath) throws IOException {
         FileType type = getFileExtension(filepath);
 
-        switch (type) {
-            case JSON: return new ObjectMapper().readValue(new File(filepath), Map.class);
-            case YAML: return new YAMLMapper().readValue(new File(filepath), Map.class);
-            default: throw new IllegalArgumentException("Unsupported format");
-        }
+        return switch (type) {
+            case JSON -> new ObjectMapper().readValue(new File(filepath), new TypeReference<Map<String, Object>>() { });
+            case YAML -> new YAMLMapper().readValue(new File(filepath), new TypeReference<Map<String, Object>>() { });
+            default -> throw new IllegalArgumentException("Unsupported format");
+        };
     }
 
     private enum FileType {
