@@ -16,6 +16,9 @@ run-dist:
 run:
 	make -C app run
 
+report:
+	make -C app report
+
 lint:
 	make -C app lint
 

@@ -23,6 +23,9 @@ run:
 lint:
 	./gradlew checkstyleMain
 
+report:
+	./gradlew jacocoTestReport
+
 test:
 	./gradlew test
 
