@@ -2,7 +2,6 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 
 import static hexlet.code.Differ.generate;
@@ -17,14 +16,15 @@ public class DifferTest {
 
     @Test
     public void testJsonDiffs() throws IOException {
-        String expected = "{\n" +
-                "  - proxy: 123.234.53.22\n" +
-                "    host: hexlet.io\n" +
-                "  - follow: false\n" +
-                "  - timeout: 50\n" +
-                "  + timeout: 20\n" +
-                "  + verbose: true\n" +
-                "}";
+        String expected = """
+                {
+                  - proxy: 123.234.53.22
+                    host: hexlet.io
+                  - follow: false
+                  - timeout: 50
+                  + timeout: 20
+                  + verbose: true
+                }""";
 
         assertEquals(generate("./src/test/resources/file1.json", "./src/test/resources/file2.json"), expected);
     }
