@@ -22,7 +22,13 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.0-rc1")
     implementation("org.apache.commons:commons-collections4:4.5.0-M1")
     implementation("com.google.guava:guava:33.1.0-jre")
-    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation("org.assertj:assertj-core:3.25.3")
+
+    compileOnly ("org.projectlombok:lombok:1.18.32")
+    annotationProcessor ("org.projectlombok:lombok:1.18.32")
+
+    testCompileOnly ("org.projectlombok:lombok:1.18.32")
+    testAnnotationProcessor ("org.projectlombok:lombok:1.18.32")
 }
 
 tasks.test {
