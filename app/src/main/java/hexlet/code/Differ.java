@@ -1,24 +1,30 @@
 package hexlet.code;
 
 import hexlet.code.model.DiffElement;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.TreeSet;
 
 import static hexlet.code.Parser.parse;
+import static hexlet.code.Formatter.output;
 
 public class Differ {
 
-    public static String generate(String filepath1, String filepath2) throws IOException {
+    public static String generate(String filepath1, String filepath2, String format) throws IOException {
+        var result = generateDiffs(parse(filepath1), parse(filepath2));
+        return output(result, format);
+    }
+
+    public static ArrayList<DiffElement> generateDiffs(Map<String, Object> file1, Map<String, Object> file2) {
         var result = new ArrayList<DiffElement>();
 
-        var file1 = parse(filepath1);
-        var file2 = parse(filepath2);
+        var fields = new TreeSet<String>();
+        fields.addAll(file1.keySet());
+        fields.addAll(file2.keySet());
 
-        List<String> fields = CollectionUtils.union(file1.keySet(), file2.keySet()).stream().sorted().toList();
         FieldStatus status;
 
         for (String field : fields) {
@@ -36,46 +42,6 @@ public class Differ {
             }
             result.add(new DiffElement(field, firstData, secondData, status));
         }
-
-        return diffString(result);
-    }
-
-    public static <T> String diffString(List<DiffElement> diffrence) {
-        StringBuilder result = new StringBuilder("{\n");
-
-        for (DiffElement element : diffrence) {
-            switch (element.getStatus()) {
-                case ADDED -> result.append("  + ")
-                        .append(element.getKey())
-                        .append(": ")
-                        .append(element.getSecondValue())
-                        .append("\n");
-                case REMOVED -> result.append("  - ")
-                        .append(element.getKey())
-                        .append(": ")
-                        .append(element.getFirstValue())
-                        .append("\n");
-                case EQUAL -> result.append("    ")
-                        .append(element.getKey())
-                        .append(": ")
-                        .append(element.getFirstValue())
-                        .append("\n");
-                case CHANGED -> {
-                    result.append("  - ")
-                            .append(element.getKey())
-                            .append(": ")
-                            .append(element.getFirstValue())
-                            .append("\n");
-                    result.append("  + ")
-                            .append(element.getKey())
-                            .append(": ")
-                            .append(element.getSecondValue())
-                            .append("\n");
-                }
-                default -> { }
-            }
-        }
-        result.append("}");
-        return result.toString();
+        return result;
     }
 }

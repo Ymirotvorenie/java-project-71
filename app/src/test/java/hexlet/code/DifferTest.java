@@ -41,7 +41,8 @@ public class DifferTest {
                   + setting3: none
                 }""";
 
-        assertEquals(generate("./src/test/resources/file1.json", "./src/test/resources/file2.json"), expected);
+        assertEquals(generate("./src/test/resources/file1.json",
+                "./src/test/resources/file2.json", "stylish"), expected);
     }
 
     @Test
@@ -73,15 +74,16 @@ public class DifferTest {
                   + setting3: none
                 }""";
 
-        assertEquals(generate("./src/test/resources/file1.yml", "./src/test/resources/file2.yml"), expected);
+        assertEquals(generate("./src/test/resources/file1.yml",
+                "./src/test/resources/file2.yml", "stylish"), expected);
     }
 
     @Test
-    public void testWrongFileExtension() throws IOException {
+    public void testWrongFileExtension() {
 
         var thrown = catchThrowable(
                 () -> generate("./src/test/resources/fileWithoutExrension",
-                        "./src/test/resources/file2.yml")
+                        "./src/test/resources/file2.yml", "stylish")
         );
         assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
     }
@@ -104,6 +106,33 @@ public class DifferTest {
                     setting2: 300
                     setting3: none
                 }""";
-        assertEquals(generate("./src/test/resources/file2.json", "./src/test/resources/file2.json"), expected);
+        assertEquals(generate("./src/test/resources/file2.json",
+                "./src/test/resources/file2.json", "stylish"), expected);
+    }
+
+    @Test
+    public void testPlainFormatter() throws IOException {
+        String expected = """
+                Property 'chars2' was updated. From [complex value] to false
+                Property 'checked' was updated. From false to true
+                Property 'default' was updated. From null to [complex value]
+                Property 'id' was updated. From 45 to null
+                Property 'key1' was removed
+                Property 'key2' was added with value: 'value2'
+                Property 'numbers2' was updated. From [complex value] to [complex value]
+                Property 'numbers3' was removed
+                Property 'numbers4' was added with value: [complex value]
+                Property 'obj1' was added with value: [complex value]
+                Property 'setting1' was updated. From 'Some value' to 'Another value'
+                Property 'setting2' was updated. From 200 to 300
+                Property 'setting3' was updated. From true to 'none'
+                """;
+        assertEquals(generate("./src/test/resources/file1.yml",
+                "./src/test/resources/file2.yml", "plain"), expected);
+    }
+
+    @Test
+    public void testJsonFormatter() {
+
     }
 }
