@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,28 +13,45 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class DifferTest {
-    @Test
-    public void testWithoutFormat() throws IOException {
-        String expected = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
-
-        assertEquals(generate("./src/test/resources/file1.json",
-                "./src/test/resources/file2.json"), expected);
-    }
-    @Test
-    public void testJsonDiffs() throws IOException {
-        String expected = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
-
-        assertEquals(generate("./src/test/resources/file1.json",
-                "./src/test/resources/file2.json", "stylish"), expected);
+public final class DifferTest {
+    private static String expectedStylishFormatter;
+    private static String expectedPlainFormatter;
+    private static String expectedJsonFormatter;
+    @BeforeAll
+    public static void setExpectedFiles() throws IOException {
+        expectedStylishFormatter = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
+        expectedPlainFormatter = Files.readString(Paths.get("./src/test/resources/result_plain.txt"));
+        expectedJsonFormatter = Files.readString(Paths.get("./src/test/resources/result_json.txt"));
     }
 
     @Test
-    public void testYamlDiffs() throws IOException {
-        String expected = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
+    public void testDifferGenerateJson() throws IOException {
+        assertEquals(generate("./src/test/resources/file1.json",
+                "./src/test/resources/file2.json", "stylish"), expectedStylishFormatter);
+
+        assertEquals(generate("./src/test/resources/file1.json",
+                "./src/test/resources/file2.json", "plain"), expectedPlainFormatter);
+
+        assertEquals(generate("./src/test/resources/file1.json",
+                "./src/test/resources/file2.json", "json"), expectedJsonFormatter);
+
+        assertEquals(generate("./src/test/resources/file1.json",
+                "./src/test/resources/file2.json"), expectedStylishFormatter);
+    }
+
+    @Test
+    public void testDifferGenerateYaml() throws IOException {
+        assertEquals(generate("./src/test/resources/file1.yml",
+                "./src/test/resources/file2.yml", "stylish"), expectedStylishFormatter);
 
         assertEquals(generate("./src/test/resources/file1.yml",
-                "./src/test/resources/file2.yml", "stylish"), expected);
+                "./src/test/resources/file2.yml", "plain"), expectedPlainFormatter);
+
+        assertEquals(generate("./src/test/resources/file1.yml",
+                "./src/test/resources/file2.yml", "json"), expectedJsonFormatter);
+
+        assertEquals(generate("./src/test/resources/file1.yml",
+                "./src/test/resources/file2.yml"), expectedStylishFormatter);
     }
 
     @Test
@@ -44,37 +62,20 @@ public class DifferTest {
     }
 
     @Test
-    public void testPlainFormatter() throws IOException {
-        String expected = Files.readString(Paths.get("./src/test/resources/result_plain.txt"));
-
-        assertEquals(generate("./src/test/resources/file1.yml",
-                "./src/test/resources/file2.yml", "plain"), expected);
-    }
-
-//    @Test
-//    public void testJsonFormatter() throws IOException {
-//        String expected = Files.readString(Paths.get("./src/test/resources/result_json.txt"));
-//
-//        assertEquals(generate("./src/test/resources/file1.yml",
-//                "./src/test/resources/file2.yml", "json"), expected);
-//    }
-
-    @Test
     public void testWrongFileExtension() {
-
         var thrown = catchThrowable(
-                () -> generate("./src/test/resources/fileWithoutExrension",
+                () -> generate("./src/test/resources/fileWithoutExtension",
                         "./src/test/resources/file2.yml", "stylish")
         );
         assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void testWrongFormat() {
+    public void testWrongFormatter() {
         var thrown = catchThrowable(
                 () -> generate("./src/test/resources/file1.yml",
                         "./src/test/resources/file2.yml", "wrong")
         );
-        assertThat(thrown).isInstanceOf(IllegalStateException.class);
+        assertThat(thrown).isInstanceOf(IOException.class);
     }
 }

@@ -3,6 +3,8 @@ package hexlet.code;
 import hexlet.code.model.DiffElement;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -12,12 +14,15 @@ import static hexlet.code.Parser.parse;
 import static hexlet.code.Formatter.output;
 
 public class Differ {
-    public static String generate(String filepath1, String filepath2) throws IOException {
-        return generate(filepath1, filepath2, "stylish");
+    public static String generate(String file1, String file2) throws IOException {
+
+        return generate(file1, file2, "stylish");
     }
 
-    public static String generate(String filepath1, String filepath2, String format) throws IOException {
-        var result = generateDiffs(parse(filepath1), parse(filepath2));
+    public static String generate(String file1, String file2, String format) throws IOException {
+        Path filepath1 = Paths.get(file1).toAbsolutePath();
+        Path filepath2 = Paths.get(file2).toAbsolutePath();
+        var result = generateDiffs(parse(filepath1.toString()), parse(filepath2.toString()));
         return output(result, format);
     }
 

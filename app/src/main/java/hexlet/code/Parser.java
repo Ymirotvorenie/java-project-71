@@ -11,12 +11,12 @@ import java.util.Map;
 
 public class Parser {
 
-    public static Map<String, Object> parse(String filepath) throws IOException {
-        FileType type = getFileExtension(filepath);
+    public static Map<String, Object> parse(String file) throws IOException {
+        FileType type = getFileExtension(file);
 
         return switch (type) {
-            case JSON -> new ObjectMapper().readValue(new File(filepath), new TypeReference<Map<String, Object>>() { });
-            case YAML -> new YAMLMapper().readValue(new File(filepath), new TypeReference<Map<String, Object>>() { });
+            case JSON -> new ObjectMapper().readValue(new File(file), new TypeReference<Map<String, Object>>() { });
+            case YAML -> new YAMLMapper().readValue(new File(file), new TypeReference<Map<String, Object>>() { });
             default -> throw new IllegalArgumentException("Unsupported format");
         };
     }
