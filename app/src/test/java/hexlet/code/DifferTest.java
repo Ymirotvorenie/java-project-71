@@ -13,7 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class DifferTest {
+    @Test
+    public void testWithoutFormat() throws IOException {
+        String expected = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
 
+        assertEquals(generate("./src/test/resources/file1.json",
+                "./src/test/resources/file2.json"), expected);
+    }
     @Test
     public void testJsonDiffs() throws IOException {
         String expected = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
