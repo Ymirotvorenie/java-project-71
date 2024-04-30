@@ -17,6 +17,7 @@ public final class DifferTest {
     private static String expectedStylishFormatter;
     private static String expectedPlainFormatter;
     private static String expectedJsonFormatter;
+
     @BeforeAll
     public static void setExpectedFiles() throws IOException {
         expectedStylishFormatter = Files.readString(Paths.get("./src/test/resources/result_stylish.txt"));
