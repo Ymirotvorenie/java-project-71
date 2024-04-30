@@ -9,14 +9,7 @@ import hexlet.code.model.DiffElement;
 import java.util.ArrayList;
 
 public class Formatter {
-//    Format format;
-//    public Formatter(String format) {
-//        switch (format) {
-//            case "stylish" -> this.format = Format.STYLISH;
-//            case "plain" -> this.format = Format.PLAIN;
-//            case "json" -> this.format = Format.JSON;
-//        }
-//    }
+
     public static String output(ArrayList<DiffElement> difference, String format) throws JsonProcessingException {
         return switch (format) {
             case "stylish" -> Stylish.output(difference);
@@ -27,8 +20,4 @@ public class Formatter {
         };
     }
 }
-//enum Format {
-//    STYLISH,
-//    PLAIN,
-//    JSON
-//}
+

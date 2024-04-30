@@ -12,6 +12,10 @@ import static hexlet.code.Parser.parse;
 import static hexlet.code.Formatter.output;
 
 public class Differ {
+    public static String generate(String filepath1, String filepath2) throws IOException {
+        var result = generateDiffs(parse(filepath1), parse(filepath2));
+        return output(result, "stylish");
+    }
 
     public static String generate(String filepath1, String filepath2, String format) throws IOException {
         var result = generateDiffs(parse(filepath1), parse(filepath2));
