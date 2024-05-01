@@ -43,14 +43,11 @@ public class Differ {
     }
 
     public static FieldStatus getStatus(String field, Map<String, Object> file1, Map<String, Object> file2) {
-        var firstData = file1.get(field);
-        var secondData = file2.get(field);
-
-        if (!file1.containsKey(field) && firstData == null) {
+        if (!file1.containsKey(field)) {
             return FieldStatus.ADDED;
-        } else if (!file2.containsKey(field) && secondData == null) {
+        } else if (!file2.containsKey(field)) {
             return FieldStatus.REMOVED;
-        } else if (Objects.equals(firstData, secondData)) {
+        } else if (Objects.equals(file1.get(field), file2.get(field))) {
             return FieldStatus.EQUAL;
         } else {
             return FieldStatus.CHANGED;
