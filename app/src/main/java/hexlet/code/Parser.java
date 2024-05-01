@@ -17,7 +17,15 @@ public class Parser {
         return switch (type) {
             case JSON -> new ObjectMapper().readValue(new File(file), new TypeReference<Map<String, Object>>() { });
             case YAML -> new YAMLMapper().readValue(new File(file), new TypeReference<Map<String, Object>>() { });
-            default -> throw new IllegalArgumentException("Unsupported format");
+            default -> throw new IOException("Unsupported format type");
+        };
+    }
+
+    private static FileType getFileExtension(String filename) {
+        return switch (Files.getFileExtension(filename)) {
+            case "json" -> FileType.JSON;
+            case "yaml", "yml" -> FileType.YAML;
+            default -> FileType.UNKNOWN;
         };
     }
 
@@ -25,12 +33,5 @@ public class Parser {
         JSON,
         YAML,
         UNKNOWN
-    }
-    private static FileType getFileExtension(String filename) {
-        return switch (Files.getFileExtension(filename)) {
-            case "json" -> FileType.JSON;
-            case "yaml", "yml" -> FileType.YAML;
-            default -> FileType.UNKNOWN;
-        };
     }
 }

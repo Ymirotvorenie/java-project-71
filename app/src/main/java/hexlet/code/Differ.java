@@ -15,7 +15,6 @@ import static hexlet.code.Formatter.output;
 
 public class Differ {
     public static String generate(String file1, String file2) throws IOException {
-
         return generate(file1, file2, "stylish");
     }
 
@@ -33,23 +32,28 @@ public class Differ {
         fields.addAll(file1.keySet());
         fields.addAll(file2.keySet());
 
-        FieldStatus status;
-
         for (String field : fields) {
             var firstData = file1.get(field);
             var secondData = file2.get(field);
 
-            if (!file1.containsKey(field) && firstData == null) {
-                status = FieldStatus.ADDED;
-            } else if (!file2.containsKey(field) && secondData == null) {
-                status = FieldStatus.REMOVED;
-            } else if (Objects.equals(firstData, secondData)) {
-                status = FieldStatus.EQUAL;
-            } else {
-                status = FieldStatus.CHANGED;
-            }
+            FieldStatus status = getStatus(field, file1, file2);
             result.add(new DiffElement(field, firstData, secondData, status));
         }
         return result;
+    }
+
+    public static FieldStatus getStatus(String field, Map<String, Object> file1, Map<String, Object> file2) {
+        var firstData = file1.get(field);
+        var secondData = file2.get(field);
+
+        if (!file1.containsKey(field) && firstData == null) {
+            return FieldStatus.ADDED;
+        } else if (!file2.containsKey(field) && secondData == null) {
+            return FieldStatus.REMOVED;
+        } else if (Objects.equals(firstData, secondData)) {
+            return FieldStatus.EQUAL;
+        } else {
+            return FieldStatus.CHANGED;
+        }
     }
 }

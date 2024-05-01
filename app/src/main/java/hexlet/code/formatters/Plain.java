@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Plain {
-
     public static String output(List<DiffElement> difference) {
         StringBuilder result = new StringBuilder();
 
@@ -25,11 +24,7 @@ public class Plain {
                         .append(element.getKey())
                         .append("' was removed")
                         .append("\n");
-//                case EQUAL -> result.append("    ")
-//                        .append(element.getKey())
-//                        .append(": ")
-//                        .append(element.getFirstValue())
-//                        .append("\n");
+//                case EQUAL -> result.append("");
                 case CHANGED -> {
                     result.append("Property '")
                             .append(element.getKey())

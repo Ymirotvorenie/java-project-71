@@ -68,7 +68,7 @@ public final class DifferTest {
                 () -> generate("./src/test/resources/fileWithoutExtension",
                         "./src/test/resources/file2.yml", "stylish")
         );
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+        assertThat(thrown).isInstanceOf(IOException.class);
     }
 
     @Test
