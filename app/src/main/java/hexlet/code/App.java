@@ -36,9 +36,9 @@ public final class App implements Callable<Integer> {
             System.out.println(differs);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-            return 0;
+            return 1;
         }
-        return 1;
+        return 0;
     }
 }
 
