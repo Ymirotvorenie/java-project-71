@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Formatter {
 
-    public static String output(ArrayList<DiffElement> difference, String format) throws IOException {
+    public static <T> String output(ArrayList<DiffElement<T>> difference, String format) throws IOException {
         return switch (format) {
             case "stylish" -> Stylish.output(difference);
             case "plain" -> Plain.output(difference);

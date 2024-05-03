@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DiffElement {
+public class DiffElement<T> {
     private String key;
-    private Object firstValue;
-    private Object secondValue;
+    private T left;
+    private T right;
     private FieldStatus status;
 }

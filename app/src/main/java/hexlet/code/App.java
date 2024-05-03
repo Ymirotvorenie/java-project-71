@@ -16,7 +16,7 @@ public final class App implements Callable<Integer> {
     @Parameters(index = "1", description = "path to second file")
     private String filepath2;
 
-    @Option(names = {"-f", "--format"}, description = "output format [default: plain]")
+    @Option(names = {"-f", "--format"}, defaultValue = "stylish", description = "output format [default: stylish]")
     private String format;
 
     public static void main(String[] args) {
@@ -27,12 +27,7 @@ public final class App implements Callable<Integer> {
     @Override
     public Integer call() throws IOException {
         try {
-            String differs;
-            if (format == null) {
-                differs = Differ.generate(filepath1, filepath2);
-            } else {
-                differs = Differ.generate(filepath1, filepath2, format);
-            }
+            String differs = Differ.generate(filepath1, filepath2, format);
             System.out.println(differs);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -41,4 +36,19 @@ public final class App implements Callable<Integer> {
         return 0;
     }
 }
+
+//в целом часто мы создаем дата классы для данных,
+//но тут не много не тот случай у нас должна быть динамичная
+//        структура данных, firstValue и secondValue по сути
+//нам нужны только в случае изменения остальное все обходится
+//просто value. (Да и в цеолом можно короче просто value1 и value2).
+//МОжно заменить дата класс на Map<String, Object> тогда при
+//формировании json получится нечто вроде такого
+//
+//{ "key": "chars1", "type": "UNCHANGED", "value": [ "a", "b", "c" ] },
+//        { "key": "chars2", "type": "CHANGED", "value1": [ "d", "e", "f" ],
+//        "value2": false }, { "key": "checked", "type": "CHANGED",
+//        "value1": false, "value2": true },
+//        { "key": "default", "type": "CHANGED",
+//        "value1": null, "value2": [ "value1", "value2" ] },
 

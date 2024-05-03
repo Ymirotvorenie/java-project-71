@@ -7,12 +7,9 @@ import hexlet.code.model.DiffElement;
 import java.util.List;
 
 public class Json {
-    public static String output(List<DiffElement> difference) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(difference);
-        } catch (JsonProcessingException ex) {
-            throw new RuntimeException(ex);
-        }
+    public static <T> String output(List<DiffElement<T>> difference) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(difference);
     }
 }
+

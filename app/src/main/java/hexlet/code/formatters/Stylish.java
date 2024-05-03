@@ -5,38 +5,20 @@ import hexlet.code.model.DiffElement;
 import java.util.List;
 
 public class Stylish {
-    public static String output(List<DiffElement> difference) {
+    public static <T> String output(List<DiffElement<T>> difference) {
         StringBuilder result = new StringBuilder("{\n");
 
-        for (DiffElement element : difference) {
+        for (DiffElement<T> element : difference) {
             switch (element.getStatus()) {
-                case ADDED -> result.append("  + ")
-                        .append(element.getKey())
-                        .append(": ")
-                        .append(element.getSecondValue())
-                        .append("\n");
-                case REMOVED -> result.append("  - ")
-                        .append(element.getKey())
-                        .append(": ")
-                        .append(element.getFirstValue())
-                        .append("\n");
-                case EQUAL -> result.append("    ")
-                        .append(element.getKey())
-                        .append(": ")
-                        .append(element.getFirstValue())
-                        .append("\n");
-                case CHANGED -> {
-                    result.append("  - ")
-                            .append(element.getKey())
-                            .append(": ")
-                            .append(element.getFirstValue())
-                            .append("\n");
-                    result.append("  + ")
-                            .append(element.getKey())
-                            .append(": ")
-                            .append(element.getSecondValue())
-                            .append("\n");
-                }
+                case ADDED -> result.append(String.format("  + %s: %s\n",
+                        element.getKey(), element.getRight()));
+                case REMOVED -> result.append(String.format("  - %s: %s\n",
+                        element.getKey(), element.getLeft()));
+                case EQUAL -> result.append(String.format("    %s: %s\n",
+                        element.getKey(), element.getLeft()));
+                case CHANGED -> result.append(String.format("  - %s: %s\n  + %s: %s\n",
+                        element.getKey(), element.getLeft(),
+                        element.getKey(), element.getRight()));
                 default -> { }
             }
         }

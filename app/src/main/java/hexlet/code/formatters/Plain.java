@@ -7,46 +7,35 @@ import java.util.List;
 import java.util.Map;
 
 public class Plain {
-    public static String output(List<DiffElement> difference) {
+    public static <T> String output(List<DiffElement<T>> difference) {
         StringBuilder result = new StringBuilder();
 
-        for (DiffElement element : difference) {
-            String firstValue = getStringForPlain(element.getFirstValue());
-            String secondValue = getStringForPlain(element.getSecondValue());
+        for (DiffElement<T> element : difference) {
+            String leftValue = getStringForPlain(element.getLeft());
+            String rightValue = getStringForPlain(element.getRight());
 
             switch (element.getStatus()) {
-                case ADDED -> result.append("Property '")
-                        .append(element.getKey())
-                        .append("' was added with value: ")
-                        .append(secondValue)
-                        .append("\n");
-                case REMOVED -> result.append("Property '")
-                        .append(element.getKey())
-                        .append("' was removed")
-                        .append("\n");
+                case ADDED -> result.append(String.format("Property '%s' was added with value: %s\n",
+                        element.getKey(), rightValue));
+                case REMOVED -> result.append(String.format("Property '%s' was removed\n",
+                        element.getKey()));
 //                case EQUAL -> result.append("");
-                case CHANGED -> {
-                    result.append("Property '")
-                            .append(element.getKey())
-                            .append("' was updated. From ")
-                            .append(firstValue)
-                            .append(" to ")
-                            .append(secondValue)
-                            .append("\n");
-                }
+                case CHANGED ->
+                        result.append(String.format("Property '%s' was updated. From %s to %s\n",
+                                element.getKey(), leftValue, rightValue));
                 default -> { }
             }
         }
         return result.toString().trim();
     }
 
-    public static String getStringForPlain(Object o) {
+    public static <T> String getStringForPlain(T o) {
         if (o instanceof Collection<?> || o instanceof Map) {
             return "[complex value]";
         } else if (o instanceof String) {
             return "'" + o + "'";
         } else {
-            return o + "";
+            return String.valueOf(o);
         }
     }
 }
