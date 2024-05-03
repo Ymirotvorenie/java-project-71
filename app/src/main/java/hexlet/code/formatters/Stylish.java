@@ -1,25 +1,29 @@
 package hexlet.code.formatters;
 
-import hexlet.code.model.DiffElement;
-
 import java.util.List;
+import java.util.Map;
 
 public class Stylish {
-    public static <T> String output(List<DiffElement<T>> difference) {
+    public static String output(List<Map<String, Object>> difference) {
         StringBuilder result = new StringBuilder("{\n");
 
-        for (DiffElement<T> element : difference) {
-            switch (element.getStatus()) {
-                case ADDED -> result.append(String.format("  + %s: %s\n",
-                        element.getKey(), element.getRight()));
-                case REMOVED -> result.append(String.format("  - %s: %s\n",
-                        element.getKey(), element.getLeft()));
-                case EQUAL -> result.append(String.format("    %s: %s\n",
-                        element.getKey(), element.getLeft()));
-                case CHANGED -> result.append(String.format("  - %s: %s\n  + %s: %s\n",
-                        element.getKey(), element.getLeft(),
-                        element.getKey(), element.getRight()));
-                default -> { }
+        for (Map<String, Object> element : difference) {
+            var keySet = element.keySet();
+            for (String key : keySet) {
+                String status = String.valueOf(element.get(key));
+                switch (status) {
+                    case "ADDED" -> result.append(String.format("  + %s: %s\n",
+                            element.get("key"), element.get("value")));
+                    case "REMOVED" -> result.append(String.format("  - %s: %s\n",
+                            element.get("key"), element.get("value")));
+                    case "EQUAL" -> result.append(String.format("    %s: %s\n",
+                            element.get("key"), element.get("value")));
+                    case "CHANGED" ->
+                            result.append(String.format("  - %s: %s\n  + %s: %s\n",
+                                    element.get("key"), element.get("value1"),
+                                    element.get("key"), element.get("value2")));
+                    default -> { }
+                }
             }
         }
         result.append("}");
