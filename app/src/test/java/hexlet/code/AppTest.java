@@ -7,7 +7,7 @@ import picocli.CommandLine;
 import static hexlet.code.Utils.getFixturePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AppTest {
+public final class AppTest {
     private CommandLine cmd;
 
     @BeforeEach
