@@ -1,6 +1,10 @@
 package hexlet.code;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeSet;
 
 public class DiffGenerator {
 
@@ -11,26 +15,26 @@ public class DiffGenerator {
         fields.addAll(file1.keySet());
         fields.addAll(file2.keySet());
         for (String field : fields) {
-            Map<String, Object> differNode = new LinkedHashMap<>();
+            Map<String, Object> diffElement = new LinkedHashMap<>();
             var value1 = file1.get(field);
             var value2 = file2.get(field);
 
-            differNode.put("key", field);
+            diffElement.put("key", field);
             if (!file1.containsKey(field)) {
-                differNode.put("status", "ADDED");
-                differNode.put("value", value2);
+                diffElement.put("status", "ADDED");
+                diffElement.put("value", value2);
             } else if (!file2.containsKey(field)) {
-                differNode.put("status", "REMOVED");
-                differNode.put("value", value1);
+                diffElement.put("status", "REMOVED");
+                diffElement.put("value", value1);
             } else if (Objects.equals(value1, value2)) {
-                differNode.put("status", "EQUAL");
-                differNode.put("value", value1);
+                diffElement.put("status", "EQUAL");
+                diffElement.put("value", value1);
             } else {
-                differNode.put("status", "CHANGED");
-                differNode.put("value1", value1);
-                differNode.put("value2", value2);
+                diffElement.put("status", "CHANGED");
+                diffElement.put("value1", value1);
+                diffElement.put("value2", value2);
             }
-            result.add(differNode);
+            result.add(diffElement);
         }
 
         return result;

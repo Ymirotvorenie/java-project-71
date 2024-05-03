@@ -9,7 +9,7 @@ public class Stylish {
 
         for (Map<String, Object> element : difference) {
             var keySet = element.keySet();
-            for(String key : keySet) {
+            for (String key : keySet) {
                 String status = String.valueOf(element.get(key));
                 switch (status) {
                     case "ADDED" -> result.append(String.format("  + %s: %s\n",

@@ -11,7 +11,7 @@ public class Plain {
         for (Map<String, Object> element : difference) {
 
             var keySet = element.keySet();
-            for(String key : keySet) {
+            for (String key : keySet) {
                 String value1 = getStringForPlain(element.get("value1"));
                 String value2 = getStringForPlain(element.get("value2"));
                 String value = getStringForPlain(element.get("value"));
