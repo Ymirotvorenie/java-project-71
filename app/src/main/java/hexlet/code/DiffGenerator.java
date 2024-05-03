@@ -21,16 +21,16 @@ public class DiffGenerator {
 
             diffElement.put("key", field);
             if (!file1.containsKey(field)) {
-                diffElement.put("status", "ADDED");
+                diffElement.put("status", FieldStatus.ADDED);
                 diffElement.put("value", value2);
             } else if (!file2.containsKey(field)) {
-                diffElement.put("status", "REMOVED");
+                diffElement.put("status", FieldStatus.REMOVED);
                 diffElement.put("value", value1);
             } else if (Objects.equals(value1, value2)) {
-                diffElement.put("status", "EQUAL");
+                diffElement.put("status", FieldStatus.EQUAL);
                 diffElement.put("value", value1);
             } else {
-                diffElement.put("status", "CHANGED");
+                diffElement.put("status", FieldStatus.CHANGED);
                 diffElement.put("value1", value1);
                 diffElement.put("value2", value2);
             }
@@ -38,16 +38,5 @@ public class DiffGenerator {
         }
 
         return result;
-    }
-    public static <T> FieldStatus getStatus(String field, Map<String, T> file1, Map<String, T> file2) {
-        if (!file1.containsKey(field)) {
-            return FieldStatus.ADDED;
-        } else if (!file2.containsKey(field)) {
-            return FieldStatus.REMOVED;
-        } else if (Objects.equals(file1.get(field), file2.get(field))) {
-            return FieldStatus.EQUAL;
-        } else {
-            return FieldStatus.CHANGED;
-        }
     }
 }
