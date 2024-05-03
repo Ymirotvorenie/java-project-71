@@ -24,7 +24,7 @@ public final class DifferTest {
 
         expectedStylishFormatter = getFileContent(getFixturePath("result_stylish.txt"));
         expectedPlainFormatter = getFileContent(getFixturePath("result_plain.txt"));
-        expectedJsonFormatter = getFileContent(getFixturePath("result_json.txt"));
+        expectedJsonFormatter = getFileContent(getFixturePath("result_json.json"));
     }
 
     @Test
