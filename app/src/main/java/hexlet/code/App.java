@@ -39,18 +39,3 @@ public final class App implements Callable<Integer> {
     }
 }
 
-//в целом часто мы создаем дата классы для данных,
-//но тут не много не тот случай у нас должна быть динамичная
-//        структура данных, firstValue и secondValue по сути
-//нам нужны только в случае изменения остальное все обходится
-//просто value. (Да и в цеолом можно короче просто value1 и value2).
-//МОжно заменить дата класс на Map<String, Object> тогда при
-//формировании json получится нечто вроде такого
-//
-//{ "key": "chars1", "type": "UNCHANGED", "value": [ "a", "b", "c" ] },
-//        { "key": "chars2", "type": "CHANGED", "value1": [ "d", "e", "f" ],
-//        "value2": false }, { "key": "checked", "type": "CHANGED",
-//        "value1": false, "value2": true },
-//        { "key": "default", "type": "CHANGED",
-//        "value1": null, "value2": [ "value1", "value2" ] },
-
