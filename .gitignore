@@ -5,3 +5,5 @@
 /app/build/
 
 app/.gradle/
+
+app/app.iml

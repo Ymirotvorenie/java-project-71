@@ -2,13 +2,14 @@ package hexlet.code;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
 
 public class DiffGenerator {
 
-    public static ArrayList<Map<String, Object>> generateDiffs(Map<String, Object> file1, Map<String, Object> file2) {
+    public static List<Map<String, Object>> generateDiffs(Map<String, Object> file1, Map<String, Object> file2) {
         var result = new ArrayList<Map<String, Object>>();
 
         var fields = new TreeSet<String>();
